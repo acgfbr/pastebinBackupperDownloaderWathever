@@ -27,7 +27,7 @@ class main:
 
         r = requests.get(link)  # faz um novo get no link recebido
 
-        tbl = BeautifulSoup(r.content, 'lxml').soup.findAll('li') # pega as tags li
+        tbl = BeautifulSoup(r.content, 'lxml').findAll('li') # pega as tags li
 
         conteudo_arquivo = ''
         
