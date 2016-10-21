@@ -19,7 +19,7 @@ class main:
 
         bs = BeautifulSoup(r.content,'lxml').findAll('a')
         
-        if 'custom scraping API' not in bs : 
+        if 'custom scraping API' in bs : 
             print('Nao foi possivel conectar no pastebin, provavalmente seu ip foi banido.')
             continue
 
