@@ -9,7 +9,7 @@ class main:
         os.makedirs('Downloads')
     
     t = 0 # contador de downs
-    nome_do_arquivo = ' ' # nome do arquivo pra verificar se o get foi duplicado [ como to pegando de 3 em 3 seg pode ser que alguem nao enviou nesse tempo ]
+    nome_do_arquivo = '' # nome do arquivo pra verificar se o get foi duplicado [ como to pegando de 3 em 3 seg pode ser que alguem nao enviou nesse tempo ]
     
     while True:
 
@@ -22,9 +22,14 @@ class main:
         split = str(id).split('/') # tira o / do link ex: /AbCdEfG123
 
         if nome_do_arquivo == str(split[1]) :
-            time.sleep(3)
+            print('Ninguem mandou algo novo ainda, tentando novamente.')
+            print('Ninguem mandou algo novo ainda, tentando novamente..')
+            print('Ninguem mandou algo novo ainda, tentando novamente...')
+            time.sleep(1) # 1 segundo pra ver se alguem mandou algo novo
             continue # ignora tudo abaixo e recomeca o loop
 
+        nome_do_arquivo = str(split[1]) # pega o atual nome do arquivo
+        
         r = requests.get(link)  # faz um novo get no link recebido
 
         tbl = BeautifulSoup(r.content, 'lxml').findAll('li') # pega as tags li
@@ -54,4 +59,4 @@ class main:
         print('Arquivos baixados: ' + str(t))
         print('===========================================================')
                 
-        time.sleep(3) # 3 segundex
+        time.sleep(1) # 1 segundex
