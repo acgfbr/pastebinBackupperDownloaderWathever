@@ -1,4 +1,4 @@
-# pastebinBackupperDownloaderWathever
+# pastebin Backupper Downloader Wathever
 
 Downloader de pastes do pastebin, baixa e salva o arquivo em tempo real, feito em pyton para estudos.
 
