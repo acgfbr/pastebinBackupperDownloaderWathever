@@ -9,6 +9,7 @@ class main:
         os.makedirs('Downloads')
     
     t = 0 # contador de downs
+    k = 0 # contador pro efeitinho dos tres pontinhos ( ... )
     nome_do_arquivo = '' # nome do arquivo pra verificar se o get foi duplicado [ como to pegando de 3 em 3 seg pode ser que alguem nao enviou nesse tempo ]
     
     while True:
@@ -22,9 +23,16 @@ class main:
         split = str(id).split('/') # tira o / do link ex: /AbCdEfG123
 
         if nome_do_arquivo == str(split[1]) :
-            print('Ninguem mandou algo novo ainda, tentando novamente.')
-            print('Ninguem mandou algo novo ainda, tentando novamente..')
-            print('Ninguem mandou algo novo ainda, tentando novamente...')
+            if k == 0 :
+                print('Ninguem mandou algo novo ainda, tentando novamente.')
+                k = 1
+            elif k == 1 :
+                print('Ninguem mandou algo novo ainda, tentando novamente..')
+                k = 2
+            elif k == 2 :
+                print('Ninguem mandou algo novo ainda, tentando novamente...')
+                k=0
+                
             time.sleep(1) # 1 segundo pra ver se alguem mandou algo novo
             continue # ignora tudo abaixo e recomeca o loop
 
