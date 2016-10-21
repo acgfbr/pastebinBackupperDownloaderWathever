@@ -55,6 +55,7 @@ class main:
 
         if not arquivo_valido : # checa se o arquivo foi valido pra download, se nao deleta porque nao efetuou o download
             os.remove(nome_do_arquivo)
+            print('ARQUIVO REMOVIDO POR SER INVALIDO ' + nome_do_arquivo)
             
         print ("\n" * 100)
         print('===========================================================')
