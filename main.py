@@ -43,9 +43,10 @@ class main:
         list_len = len(tbl)
 
         for i in range(18,list_len) :
-         if(len(tbl[i].contents[0]) > 0) :
-            f.write(''.join((tbl[i].contents[0].contents[0]).encode('utf-8').strip()))
-            f.write('\n')
+            if(len(tbl[i].contents) > 0) :
+             if(len(tbl[i].contents[0]) > 0) :
+                f.write(''.join((tbl[i].contents[0].contents[0]).encode('utf-8').strip()))
+                f.write('\n')
             
         f.close()
         
