@@ -23,7 +23,7 @@ class main:
 
         if nome_do_arquivo == str(split[1]) :
             time.sleep(3)
-            continue # ignora tudo abaixo e recomeça o loop
+            continue # ignora tudo abaixo e recomeca o loop
 
         r = requests.get(link)  # faz um novo get no link recebido
 
