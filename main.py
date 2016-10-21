@@ -41,15 +41,21 @@ class main:
         tbl = soup.findAll('li')
 
         list_len = len(tbl)
+        
+        arquivo_valido = False
 
         for i in range(18,list_len) :
             if(len(tbl[i].contents) > 0) :
              if(len(tbl[i].contents[0]) > 0) :
+                arquivo_valido = True
                 f.write(''.join((tbl[i].contents[0].contents[0]).encode('utf-8').strip()))
                 f.write('\n')
             
         f.close()
-        
+
+        if not arquivo_valido : # checa se o arquivo foi valido pra download, se nao deleta porque nao efetuou o download
+            os.remove(nome_do_arquivo)
+            
         print ("\n" * 100)
         print('===========================================================')
         print('dh.18@msn.com or tone@elitedev.com.br')
