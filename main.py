@@ -8,54 +8,42 @@ class main:
     if not os.path.exists('Downloads') : # cria a pastinha downloads se nao existir :D
         os.makedirs('Downloads')
     
-    t = 1
-    nome_do_arquivo = ' '
-    
+    t = 0 # contador de downs
+    nome_do_arquivo = ' ' # nome do arquivo pra verificar se o get foi duplicado [ como to pegando de 3 em 3 seg pode ser que alguem nao enviou nesse tempo ]
     
     while True:
 
         r = requests.get('http://pastebin.com/archive') # Vai na url de arquivos, descobri que apos um tempo pegando
         # o pastebin da ban, mas eu consegui pegar pelo public paste ali do canto :D !
 
-        soup = BeautifulSoup(r.content,'lxml')
+        id = BeautifulSoup(r.content,'lxml').findAll('a')[10].attrs.itervalues().next() # cata o nome gerado do site pela tag a
+        link = 'http://pastebin.com' + id # link final
 
-        tbl = soup.findAll('a')[10]
-        id = tbl.attrs.itervalues().next()
-        link = 'http://pastebin.com' + id
-    
-
-        split = str(id).split('/')
+        split = str(id).split('/') # tira o / do link ex: /AbCdEfG123
 
         if nome_do_arquivo == str(split[1]) :
             time.sleep(3)
-            continue
-
-        nome_do_arquivo = str(split[1])
-
-        f = open('Downloads/' + str(split[1]) + '.txt', 'w')
+            continue # ignora tudo abaixo e recomeça o loop
 
         r = requests.get(link)  # faz um novo get no link recebido
 
-        soup = BeautifulSoup(r.content, 'lxml')
+        tbl = BeautifulSoup(r.content, 'lxml').soup.findAll('li') # pega as tags li
 
-        tbl = soup.findAll('li')
-
-        list_len = len(tbl)
+        conteudo_arquivo = ''
         
-        arquivo_valido = False
-
-        for i in range(18,list_len) :
+        for i in range(18,len(tbl)) : # loopzera pra pegar todo conteudo do arquivo do site
             if(len(tbl[i].contents) > 0) :
-             if(len(tbl[i].contents[0]) > 0) :
-                arquivo_valido = True
-                f.write(''.join((tbl[i].contents[0].contents[0]).encode('utf-8').strip()))
-                f.write('\n')
-            
-        f.close()
+                if(len(tbl[i].contents[0]) > 0) :
+                    conteudo_arquivo += ''.join((tbl[i].contents[0].contents[0]).encode('utf-8').strip())
+                    conteudo_arquivo +='\n'
 
-        if not arquivo_valido : # checa se o arquivo foi valido pra download, se nao deleta porque nao efetuou o download
-            os.remove(nome_do_arquivo)
-            print('ARQUIVO REMOVIDO POR SER INVALIDO ' + nome_do_arquivo)
+        if len(conteudo_arquivo) > 0 : # checa se o arquivo foi valido pra download
+            f = open('Downloads/' + str(split[1]) + '.txt', 'w')
+            f.write(conteudo_arquivo)
+            f.close()
+            t = t+1
+
+        #gran fenale
             
         print ("\n" * 100)
         print('===========================================================')
@@ -65,10 +53,5 @@ class main:
         print('===========================================================')
         print('Arquivos baixados: ' + str(t))
         print('===========================================================')
-                    
-        t = t+1
-        time.sleep(3)
-
-
-
-
+                
+        time.sleep(3) # 3 segundex
