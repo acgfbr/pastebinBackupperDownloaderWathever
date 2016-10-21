@@ -18,8 +18,8 @@ class main:
         # o pastebin da ban, mas eu consegui pegar pelo public paste ali do canto :D !
 
         bs = BeautifulSoup(r.content,'lxml').findAll('a')
-        
-        if 'custom scraping API' in bs : 
+           
+        if len(bs) == 2 : 
             print('Nao foi possivel conectar no pastebin, provavalmente seu ip foi banido.')
             continue
 
