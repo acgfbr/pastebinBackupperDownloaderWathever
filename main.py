@@ -17,9 +17,15 @@ class main:
         r = requests.get('http://pastebin.com/archive') # Vai na url de arquivos, descobri que apos um tempo pegando
         # o pastebin da ban, mas eu consegui pegar pelo public paste ali do canto :D !
 
-        id = BeautifulSoup(r.content,'lxml').findAll('a')[10].attrs.itervalues().next() # cata o nome gerado do site pela tag a
-        link = 'http://pastebin.com' + id # link final
+        bs = BeautifulSoup(r.content,'lxml').findAll('a')
+        
+        if 'custom scraping API' not in bs : 
+            print('Nao foi possivel conectar no pastebin, provavalmente seu ip foi banido.')
+            continue
 
+        id = bs[10].attrs.itervalues().next() # cata o nome gerado do site pela tag a
+        link = 'http://pastebin.com' + id # link final
+           
         split = str(id).split('/') # tira o / do link ex: /AbCdEfG123
 
         if nome_do_arquivo == str(split[1]) :
@@ -33,7 +39,7 @@ class main:
                 print('Ninguem mandou algo novo ainda, tentando novamente...')
                 k=0
                 
-            time.sleep(1) # 1 segundo pra ver se alguem mandou algo novo
+            time.sleep(3) # 3 segundos pra ver se alguem mandou algo novo
             continue # ignora tudo abaixo e recomeca o loop
 
         nome_do_arquivo = str(split[1]) # pega o atual nome do arquivo
@@ -67,4 +73,4 @@ class main:
         print('Arquivos baixados: ' + str(t))
         print('===========================================================')
                 
-        time.sleep(1) # 1 segundex
+        time.sleep(3) # 3 segundex - 1 segundo levei ban de ip no cloud kkkk
