@@ -2,8 +2,20 @@ import time
 from bs4 import BeautifulSoup
 import requests
 import os
+import mysql.connector
+import traceback
 
-class main:
+def connect() :
+        try:
+            return mysql.connector.connect(user='tone', password='oieoie18', host='db4free.net', database='pystebin')
+        except Exception, err:
+            traceback.print_exc()
+            time.sleep(10000)
+            print('Nao foi possivel conectar ao banco! Tentando conectar novamente')
+            time.sleep(3)
+            connect()
+
+class main():
 
     if not os.path.exists('Downloads') : # cria a pastinha downloads se nao existir :D
         os.makedirs('Downloads')
@@ -13,6 +25,9 @@ class main:
     nome_do_arquivo = '' # nome do arquivo pra verificar se o get foi duplicado [ como to pegando de 3 em 3 seg pode ser que alguem nao enviou nesse tempo ]
     
     while True:
+
+        conexao = connect()
+        cursor = conexao.cursor()
 
         r = requests.get('http://pastebin.com/archive') # Vai na url de arquivos, descobri que apos um tempo pegando
         # o pastebin da ban, mas eu consegui pegar pelo public paste ali do canto :D !
@@ -57,14 +72,18 @@ class main:
                     conteudo_arquivo +='\n'
 
         if len(conteudo_arquivo) > 0 : # checa se o arquivo foi valido pra download
-            f = open('Downloads/' + str(split[1]) + '.txt', 'w')
-            f.write(conteudo_arquivo)
-            f.close()
+
+            query = ("INSERT INTO pystebin (nome_arquivo, conteudo) VALUES (%(var1)s, %(var2)s)")
+            query_data = {'var1': nome_do_arquivo, 'var2': conteudo_arquivo,}
+            cursor.execute(query,query_data)
+            conexao.commit()
+            cursor.close()
+            conexao.close()
+
             t = t+1
 
         #gran fenale
-            
-        print ("\n" * 100)
+
         print('===========================================================')
         print('dh.18@msn.com or tone@elitedev.com.br')
         print('===========================================================')
