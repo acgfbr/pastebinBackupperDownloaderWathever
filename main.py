@@ -7,7 +7,7 @@ import traceback
 
 def connect() :
         try:
-            return mysql.connector.connect(user='tone', password='oieoie18', host='db4free.net', database='pystebin')
+            return mysql.connector.connect(user='youruser', password='yourpass', host='yourhost', database='yourdb')
         except Exception, err:
             traceback.print_exc()
             time.sleep(10000)
